@@ -120,8 +120,8 @@ class PdfParser:
                         dcc.Loading(html.Div(id="submit-pos-loading"), type="circle"),
                         dbc.Alert(id='alert-pos', style={'width': '70%',
                                                          'display': 'inline-block',
-                                                         "margin-top": "30px",
-                                                         "margin-left": "100px"}),
+                                                         "margin-top": "10px",
+                                                         "margin-left": "10em"}),
                     ]
                     ),
                 ],

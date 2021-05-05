@@ -35,7 +35,7 @@ layout = \
                        'line-height': '1',
                        'text-align': 'center',
                        'display': 'inline-block',
-                       "margin-left": "500px"}),
+                       "margin": "0em 30%"}),
 
         html.Div(
             children=[
@@ -46,7 +46,7 @@ layout = \
                         html.A('Select PDF'),
                     ]),
                     style={
-                        'width': '40%',
+                        'width': '50%',
                         'height': '60px',
                         'lineHeight': '60px',
                         'borderWidth': '1px',
@@ -55,7 +55,7 @@ layout = \
                         'borderRadius': '5px',
                         'textAlign': 'center',
                         "background-color": "#f8f9fa",
-                        "margin": " 10px auto",
+                        "margin": " 0 25%",
                     },
                     # Allow multiple files to be uploaded
                     multiple=False
@@ -63,7 +63,7 @@ layout = \
             ]
         ),
         html.Hr(),
-        html.Div(id='pdf-pos'),
+        html.Div(id='pdf-pos', style={'margin': '0', 'padding': '0'}),
     ])
 
 
