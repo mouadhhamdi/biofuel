@@ -178,7 +178,7 @@ def extract_info_pdf(filename_text, filename_pdf):
     pd.set_option('max_colwidth', False)
 
     pdfParseObject = BluePdfParser(path_to_pdf=filename_pdf, path_to_text=filename_text)
-    pdfParseObject.save_text_pdf()
+    pdfParseObject.save_text_no_empty_lines_pdf()
     #textScrapperObject = BlueTextScrapper(path_to_text=filename_text)
     # pprint.pprint(textScrapperObject.get_all_fields())
     #fields_df = json_normalize(textScrapperObject.get_all_fields())
