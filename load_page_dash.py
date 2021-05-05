@@ -100,3 +100,4 @@ def submit_pdf(n_clicks):
         return '', dbc.Alert("POS added to database.", color="success")
     if n_clicks > 1:
         return '', dbc.Alert("POS already added to database.", color="danger")
+    return '', ''
