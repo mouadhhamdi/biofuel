@@ -5,12 +5,12 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_table
 from pdf2image import convert_from_bytes
-from extract_data_text import TextScrapper
+from extract_yellow_data_text import YellowTextScrapper
 import io
 from pandas import json_normalize
 
 
-class PdfParser:
+class YellowPdfParser:
 
     def __init__(self, path_to_pdf, path_to_text):
         self.path_to_pdf = path_to_pdf
@@ -110,17 +110,17 @@ class PdfParser:
                 ),  html.Div(
                     [
                         dbc.Button("Submit",
-                                   id='submit-pos',
+                                   id='submit-yellow-pos',
                                    n_clicks=0,
                                    outline=True,
                                    color="danger",
                                    style={'width': '30%',
                                           'padding': '1em',
                                           'margin-bottom': '1em'}),
-                        dcc.Loading(html.Div(id="submit-pos-loading"), type="circle"),
-                        dbc.Alert(id='alert-pos', style={'width': '70%',
+                        dcc.Loading(html.Div(id="submit-yellow-pos-loading"), type="circle"),
+                        dbc.Alert(id='alert-yellow-pos', style={'width': '70%',
                                                          'display': 'inline-block',
-                                                         "margin-top": "10px",
+                                                         "margin-top": "3px",
                                                          "margin-left": "10em"}),
                     ]
                     ),
@@ -156,15 +156,15 @@ class PdfParser:
             f.write(decoded)
             f.close()
 
-        pdfParseObject = PdfParser(path_to_pdf=filename_pdf_save_time, path_to_text=filename_text_save_time)
+        pdfParseObject = YellowPdfParser(path_to_pdf=filename_pdf_save_time, path_to_text=filename_text_save_time)
         pdfParseObject.save_text_no_empty_lines_pdf()
 
-        textScrapperObject = TextScrapper(path_to_text=filename_text_save_time)
+        textScrapperObject = YellowTextScrapper(path_to_text=filename_text_save_time)
         fields_df = json_normalize(textScrapperObject.get_all_fields())
 
         images = convert_from_bytes(decoded)
-        encoded_first_page = PdfParser.pil_to_b64_dash(images[0])
-        encoded_second_page = PdfParser.pil_to_b64_dash(images[1])
+        encoded_first_page = YellowPdfParser.pil_to_b64_dash(images[0])
+        encoded_second_page = YellowPdfParser.pil_to_b64_dash(images[1])
 
         return pdfParseObject.render_pdf_extract_dash(encoded_first_page, encoded_second_page, fields_df)
 
@@ -176,15 +176,14 @@ def extract_info_pdf(filename_text, filename_pdf):
     pd.set_option('display.expand_frame_repr', False)
     pd.set_option('max_colwidth', False)
 
-    pdfParseObject = PdfParser(path_to_pdf=filename_pdf, path_to_text=filename_text)
+    pdfParseObject = YellowPdfParser(path_to_pdf=filename_pdf, path_to_text=filename_text)
     pdfParseObject.save_text_no_empty_lines_pdf()
-    textScrapperObject = TextScrapper(path_to_text=filename_text)
+    textScrapperObject = YellowTextScrapper(path_to_text=filename_text)
     # pprint.pprint(textScrapperObject.get_all_fields())
     fields_df = json_normalize(textScrapperObject.get_all_fields())
     df_transpose = fields_df.T
     df_transpose = df_transpose.reset_index().rename(columns={0: 'Value', 'index': 'Field'})
     # print(df_transpose)
-    df_transpose.to_csv("pos.csv", index=False)
     return df_transpose
 
 extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type1.pdf')
