@@ -81,6 +81,8 @@ def show_pdf(content, name, date):
     """
     if content is not None:
         return YellowPdfParser.parse_pdf_content_dash(content, name, date)
+    else:
+        return ''
 
 
 @app.callback([Output('submit-yellow-pos-loading', 'children'),

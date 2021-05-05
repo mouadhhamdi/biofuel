@@ -1,6 +1,5 @@
 import dash_bootstrap_components as dbc
 import dash_html_components as html
-from load_page_dash import get_logo_image
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 from server import app
@@ -32,7 +31,7 @@ navbar = html.Div(
 def toggle_active_links(pathname):
     if pathname == "/":
         # Treat page 1 as the homepage / index
-        return True, False, False
+        return True, False
     return [pathname == f"/page-{i}" for i in range(1, 2)]
 
 

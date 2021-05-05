@@ -186,7 +186,7 @@ def extract_info_pdf(filename_text, filename_pdf):
     # print(df_transpose)
     return df_transpose
 
-extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type1.pdf')
+# extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type1.pdf')
 # extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type2.pdf')
 # extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type3.pdf')
 
