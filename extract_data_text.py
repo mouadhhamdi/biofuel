@@ -2,6 +2,9 @@ import re
 
 
 class TextScrapper:
+    """
+    Extract data from the text
+    """
 
     def __init__(self, path_to_text):
         self.path_to_text = path_to_text
@@ -265,6 +268,6 @@ class TextScrapper:
         return all_fields
 
 
-#TextScrapper = TextScrapper("text_data/output.txt")
-#a = TextScrapper.get_biomass()
-#print(a)
+# TextScrapper = TextScrapper("data/text_data/output.txt")
+# a = TextScrapper.get_all_fields()
+# print(a)
