@@ -22,11 +22,13 @@ layout = \
         html.Div(children=[
         html.Img(title='Bio Fuel',
                  src='data:image/png;base64,{}'.format(get_logo_image().decode()),
-                 height=100,
-                 width=100,
-                 style={'display': 'inline-block'}),
+                 height=120,
+                 width=120,
+                 style={'display': 'inline-block',"margin": " 1% 1%",
+},
+                 ),
 
-        html.H1(children='Bio Fuel',
+        html.H1('Bio Fuel',
                 style={'color': '111',
                        'font-family': 'Open Sans Condensed',
                        'font-size': '80px',
@@ -35,7 +37,7 @@ layout = \
                        'line-height': '1',
                        'text-align': 'center',
                        'display': 'inline-block',
-                       "margin": "0em 30%"}),
+                       "margin": "0em 35%"}),
 
         html.Div(
             children=[
@@ -92,9 +94,11 @@ def submit_pdf(n_clicks):
     :param n_clicks: on click submit the pdf
     :return: alert message
     """
-    if 0 < n_clicks < 2:
-        print(n_clicks)
+    if n_clicks==0:
+        return '', ''
+    elif n_clicks==1:
         time.sleep(2)
         return '', dbc.Alert("POS added to database.", color="success")
-    if n_clicks > 1:
+    else:
         return '', dbc.Alert("POS already added to database.", color="danger")
+

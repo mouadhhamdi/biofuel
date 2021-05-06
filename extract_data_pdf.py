@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_table
 from pdf2image import convert_from_bytes
-from extract_data_text import TextScrapper
+from extract_data_text import YellowTextScrapper
 import io
 import os
 from pandas import json_normalize
@@ -171,7 +171,7 @@ class PdfParser:
         pdfParseObject = PdfParser(path_to_pdf=pdf_file_path, path_to_text=text_file_path)
         pdfParseObject.save_text_no_empty_lines_pdf()
 
-        textScrapperObject = TextScrapper(path_to_text=text_file_path)
+        textScrapperObject = YellowTextScrapper(path_to_text=text_file_path)
         fields_df = json_normalize(textScrapperObject.get_all_fields())
 
         images = convert_from_bytes(decoded)
@@ -190,7 +190,7 @@ def extract_info_pdf(filename_text, filename_pdf):
 
     pdfParseObject = PdfParser(path_to_pdf=filename_pdf, path_to_text=filename_text)
     pdfParseObject.save_text_no_empty_lines_pdf()
-    textScrapperObject = TextScrapper(path_to_text=filename_text)
+    textScrapperObject = YellowTextScrapper(path_to_text=filename_text)
     # pprint.pprint(textScrapperObject.get_all_fields())
     fields_df = json_normalize(textScrapperObject.get_all_fields())
     df_transpose = fields_df.T

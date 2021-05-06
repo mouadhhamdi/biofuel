@@ -1,7 +1,7 @@
 import re
 
 
-class TextScrapper:
+class YellowTextScrapper:
     """
     Extract data from the text
     """
@@ -232,20 +232,20 @@ class TextScrapper:
 
     def get_all_fields(self):
         all_fields = {}
-        pos_num = TextScrapper.get_number_pos(self)
-        number_basic_proof = TextScrapper.get_number_basic_proof(self)
-        issuer = TextScrapper.get_issuer(self)
-        interface = TextScrapper.get_interface(self)
-        quantity = TextScrapper.get_quantity(self)
-        country_cultivation = TextScrapper.get_country_cultivation(self)
-        first_formula = TextScrapper.get_first_formula(self)
-        second_formula = TextScrapper.get_second_formula(self)
-        date_of_insurance = TextScrapper.get_date_issuance(self)
-        last_supplier = TextScrapper.get_last_supplier(self)
-        biofuel_percentage = TextScrapper.get_biofuel_percentage(self)
-        initial_operating = TextScrapper.get_initial_operating(self)
-        date_delivery = TextScrapper.get_date_delivery(self)
-        biomass = TextScrapper.get_biomass(self)
+        pos_num = YellowTextScrapper.get_number_pos(self)
+        number_basic_proof = YellowTextScrapper.get_number_basic_proof(self)
+        issuer = YellowTextScrapper.get_issuer(self)
+        interface = YellowTextScrapper.get_interface(self)
+        quantity = YellowTextScrapper.get_quantity(self)
+        country_cultivation = YellowTextScrapper.get_country_cultivation(self)
+        first_formula = YellowTextScrapper.get_first_formula(self)
+        second_formula = YellowTextScrapper.get_second_formula(self)
+        date_of_insurance = YellowTextScrapper.get_date_issuance(self)
+        last_supplier = YellowTextScrapper.get_last_supplier(self)
+        biofuel_percentage = YellowTextScrapper.get_biofuel_percentage(self)
+        initial_operating = YellowTextScrapper.get_initial_operating(self)
+        date_delivery = YellowTextScrapper.get_date_delivery(self)
+        biomass = YellowTextScrapper.get_biomass(self)
 
         all_fields.update(pos_num)
         all_fields.update(number_basic_proof)
