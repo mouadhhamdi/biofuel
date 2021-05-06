@@ -4,14 +4,14 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_table
-import pdftotext
 from pdf2image import convert_from_bytes
-from extract_blue_data_text import BlueTextScrapper
+from extract_data_text import TextScrapper
 import io
+import os
 from pandas import json_normalize
 
 
-class BluePdfParser:
+class PdfParser:
 
     def __init__(self, path_to_pdf, path_to_text):
         self.path_to_pdf = path_to_pdf
@@ -111,17 +111,17 @@ class BluePdfParser:
                 ),  html.Div(
                     [
                         dbc.Button("Submit",
-                                   id='submit-yellow-pos',
+                                   id='submit-pos',
                                    n_clicks=0,
                                    outline=True,
                                    color="danger",
                                    style={'width': '30%',
                                           'padding': '1em',
                                           'margin-bottom': '1em'}),
-                        dcc.Loading(html.Div(id="submit-yellow-pos-loading"), type="circle"),
-                        dbc.Alert(id='alert-yellow-pos', style={'width': '70%',
+                        dcc.Loading(html.Div(id="submit-pos-loading"), type="circle"),
+                        dbc.Alert(id='alert-pos', style={'width': '70%',
                                                          'display': 'inline-block',
-                                                         "margin-top": "3px",
+                                                         "margin-top": "10px",
                                                          "margin-left": "10em"}),
                     ]
                     ),
@@ -150,24 +150,35 @@ class BluePdfParser:
         if decoded[0:4] != b'%PDF':
             raise ValueError('Missing the PDF file signature')
 
-        filename_pdf_save_time = "data_dash/data_dash_pdf/pos.pdf"  #+ str(date) + "_" + filename
-        filename_text_save_time = "data_dash/data_dash_text/pos.txt"  #+ str(date) + "_" + filename.split('pdf')[0] + ".txt"
+        pdf_folder_path = "data_dash/data_dash_pdf"
+        text_folder_path = "data_dash/data_dash_text"
 
-        with open(filename_pdf_save_time, 'wb') as f:
+        try:
+            os.mkdir(pdf_folder_path)
+            os.mkdir(text_folder_path)
+        except OSError:
+            print("Directory %s already exists" % pdf_folder_path)
+            print("Directory %s already exists" % text_folder_path)
+        else:
+            print("Successfully created directory %s" % pdf_folder_path)
+
+        pdf_file_path = os.path.join(pdf_folder_path,"pos.pdf")
+        text_file_path = os.path.join(text_folder_path,"pos.txt")
+        with open(pdf_file_path, 'wb') as f:
             f.write(decoded)
             f.close()
 
-        pdfParseObject = BluePdfParser(path_to_pdf=filename_pdf_save_time, path_to_text=filename_text_save_time)
+        pdfParseObject = PdfParser(path_to_pdf=pdf_file_path, path_to_text=text_file_path)
         pdfParseObject.save_text_no_empty_lines_pdf()
 
-        #textScrapperObject = BluePdfParser(path_to_text=filename_text_save_time)
-        #fields_df = json_normalize(textScrapperObject.get_all_fields())
+        textScrapperObject = TextScrapper(path_to_text=text_file_path)
+        fields_df = json_normalize(textScrapperObject.get_all_fields())
 
-        #images = convert_from_bytes(decoded)
-        #encoded_first_page = BluePdfParser.pil_to_b64_dash(images[0])
-        #encoded_second_page = BluePdfParser.pil_to_b64_dash(images[1])
+        images = convert_from_bytes(decoded)
+        encoded_first_page = PdfParser.pil_to_b64_dash(images[0])
+        encoded_second_page = PdfParser.pil_to_b64_dash(images[1])
 
-        #return pdfParseObject.render_pdf_extract_dash(encoded_first_page, encoded_second_page, fields_df)
+        return pdfParseObject.render_pdf_extract_dash(encoded_first_page, encoded_second_page, fields_df)
 
 
 def extract_info_pdf(filename_text, filename_pdf):
@@ -177,21 +188,19 @@ def extract_info_pdf(filename_text, filename_pdf):
     pd.set_option('display.expand_frame_repr', False)
     pd.set_option('max_colwidth', False)
 
-    pdfParseObject = BluePdfParser(path_to_pdf=filename_pdf, path_to_text=filename_text)
+    pdfParseObject = PdfParser(path_to_pdf=filename_pdf, path_to_text=filename_text)
     pdfParseObject.save_text_no_empty_lines_pdf()
-    #textScrapperObject = BlueTextScrapper(path_to_text=filename_text)
+    textScrapperObject = TextScrapper(path_to_text=filename_text)
     # pprint.pprint(textScrapperObject.get_all_fields())
-    #fields_df = json_normalize(textScrapperObject.get_all_fields())
-    #df_transpose = fields_df.T
-    #df_transpose = df_transpose.reset_index().rename(columns={0: 'Value', 'index': 'Field'})
+    fields_df = json_normalize(textScrapperObject.get_all_fields())
+    df_transpose = fields_df.T
+    df_transpose = df_transpose.reset_index().rename(columns={0: 'Value', 'index': 'Field'})
     # print(df_transpose)
-    #df_transpose.to_csv("pos.csv", index=False)
-    #return df_transpose
+    df_transpose.to_csv("pos.csv", index=False)
+    return df_transpose
 
-
-
-
-extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type4_blue.pdf')
+# extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type1.pdf')
+# extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type2.pdf')
 # extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type3.pdf')
 
 

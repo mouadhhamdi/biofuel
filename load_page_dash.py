@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 from server import app
 import time
-from extract_yellow_data_pdf import YellowPdfParser
+from extract_data_pdf import PdfParser
 
 
 def get_logo_image():
@@ -40,7 +40,7 @@ layout = \
         html.Div(
             children=[
                 dcc.Upload(
-                    id='upload-yellow-pdf',
+                    id='upload-pdf',
                     children=html.Div([
                         'Drag and Drop or ',
                         html.A('Select PDF'),
@@ -63,14 +63,14 @@ layout = \
             ]
         ),
         html.Hr(),
-        html.Div(id='yellow-pdf-pos'),
-    ], style={'padding': '0', 'width': '100%'})
+        html.Div(id='pdf-pos', style={'margin': '0', 'padding': '0'}),
+    ])
 
 
-@app.callback(Output('yellow-pdf-pos', 'children'),
-              [Input('upload-yellow-pdf', 'contents')],
-              [State('upload-yellow-pdf', 'filename'),
-               State('upload-yellow-pdf', 'last_modified')])
+@app.callback(Output('pdf-pos', 'children'),
+              [Input('upload-pdf', 'contents')],
+              [State('upload-pdf', 'filename'),
+               State('upload-pdf', 'last_modified')])
 def show_pdf(content, name, date):
     """
 
@@ -80,14 +80,12 @@ def show_pdf(content, name, date):
     :return: the pdf and the extracted information in table
     """
     if content is not None:
-        return YellowPdfParser.parse_pdf_content_dash(content, name, date)
-    else:
-        return ''
+        return PdfParser.parse_pdf_content_dash(content, name, date)
 
 
-@app.callback([Output('submit-yellow-pos-loading', 'children'),
-               Output('alert-yellow-pos', 'children')],
-              [Input('submit-yellow-pos', 'n_clicks')])
+@app.callback([Output('submit-pos-loading', 'children'),
+               Output('alert-pos', 'children')],
+              [Input('submit-pos', 'n_clicks')])
 def submit_pdf(n_clicks):
     """
 
@@ -100,4 +98,3 @@ def submit_pdf(n_clicks):
         return '', dbc.Alert("POS added to database.", color="success")
     if n_clicks > 1:
         return '', dbc.Alert("POS already added to database.", color="danger")
-    return '', ''

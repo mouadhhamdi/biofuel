@@ -1,7 +1,7 @@
 from load_page_dash import layout as layout_load
 from server import app
 from navbar import navbar as layout_navbar
-app.layout = layout_navbar
+app.layout = layout_load
 
 if __name__ == '__main__':
     app.run_server(debug=True, dev_tools_ui=True)

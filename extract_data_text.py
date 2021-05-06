@@ -1,7 +1,7 @@
 import re
 
 
-class BlueTextScrapper:
+class TextScrapper:
     """
     Extract data from the text
     """
@@ -232,20 +232,20 @@ class BlueTextScrapper:
 
     def get_all_fields(self):
         all_fields = {}
-        pos_num = BlueTextScrapper.get_number_pos(self)
-        number_basic_proof = BlueTextScrapper.get_number_basic_proof(self)
-        issuer = BlueTextScrapper.get_issuer(self)
-        interface = BlueTextScrapper.get_interface(self)
-        quantity = BlueTextScrapper.get_quantity(self)
-        country_cultivation = BlueTextScrapper.get_country_cultivation(self)
-        first_formula = BlueTextScrapper.get_first_formula(self)
-        second_formula = BlueTextScrapper.get_second_formula(self)
-        date_of_insurance = BlueTextScrapper.get_date_issuance(self)
-        last_supplier = BlueTextScrapper.get_last_supplier(self)
-        biofuel_percentage = BlueTextScrapper.get_biofuel_percentage(self)
-        initial_operating = BlueTextScrapper.get_initial_operating(self)
-        date_delivery = BlueTextScrapper.get_date_delivery(self)
-        biomass = BlueTextScrapper.get_biomass(self)
+        pos_num = TextScrapper.get_number_pos(self)
+        number_basic_proof = TextScrapper.get_number_basic_proof(self)
+        issuer = TextScrapper.get_issuer(self)
+        interface = TextScrapper.get_interface(self)
+        quantity = TextScrapper.get_quantity(self)
+        country_cultivation = TextScrapper.get_country_cultivation(self)
+        first_formula = TextScrapper.get_first_formula(self)
+        second_formula = TextScrapper.get_second_formula(self)
+        date_of_insurance = TextScrapper.get_date_issuance(self)
+        last_supplier = TextScrapper.get_last_supplier(self)
+        biofuel_percentage = TextScrapper.get_biofuel_percentage(self)
+        initial_operating = TextScrapper.get_initial_operating(self)
+        date_delivery = TextScrapper.get_date_delivery(self)
+        biomass = TextScrapper.get_biomass(self)
 
         all_fields.update(pos_num)
         all_fields.update(number_basic_proof)
@@ -268,6 +268,6 @@ class BlueTextScrapper:
         return all_fields
 
 
-# BlueTextScrapper = BlueTextScrapper("data/text_data/output.txt")
+# TextScrapper = TextScrapper("data/text_data/output.txt")
 # a = TextScrapper.get_all_fields()
 # print(a)
