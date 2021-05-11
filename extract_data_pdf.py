@@ -1,5 +1,5 @@
 import pdftotext
-from extract_data_text import YellowTextScrapper
+from extract_data_text import YellowTextScrapper,BlueTextScrapper
 from pandas import json_normalize
 
 
@@ -53,7 +53,7 @@ def extract_info_pdf(filename_text, filename_pdf):
 
     pdfParseObject = PdfParser(path_to_pdf=filename_pdf, path_to_text=filename_text)
     pdfParseObject.save_text_no_empty_lines_pdf()
-    textScrapperObject = YellowTextScrapper(path_to_text=filename_text)
+    textScrapperObject = BlueTextScrapper(path_to_text=filename_text)
     # pprint.pprint(textScrapperObject.get_all_fields())
     fields_df = json_normalize(textScrapperObject.get_all_fields())
     df_transpose = fields_df.T
@@ -62,7 +62,7 @@ def extract_info_pdf(filename_text, filename_pdf):
     df_transpose.to_csv("pos.csv", index=False)
     return df_transpose
 
-# extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type1.pdf')
+#extract_info_pdf('pos.txt', 'Blue Pos.pdf')
 # extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type2.pdf')
 # extract_info_pdf('data/text_data/pos.txt', 'data/pdf_data/Type3.pdf')
 

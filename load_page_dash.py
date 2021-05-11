@@ -9,7 +9,7 @@ import dash_table
 import io
 from pdf2image import convert_from_bytes
 import os
-from extract_data_text import YellowTextScrapper
+from extract_data_text import YellowTextScrapper, BlueTextScrapper
 from extract_data_pdf import PdfParser
 from pandas import json_normalize
 
@@ -138,7 +138,14 @@ def parse_pdf_content_dash(contents):
     pdfParseObject = PdfParser(path_to_pdf=pdf_file_path, path_to_text=text_file_path)
     pdfParseObject.save_text_no_empty_lines_pdf()
 
-    textScrapperObject = YellowTextScrapper(path_to_text=text_file_path)
+    with open(text_file_path) as f:
+        text = f.read()
+
+    if 'V4.4' in text :
+        textScrapperObject = BlueTextScrapper(path_to_text=text_file_path)
+    else:
+        textScrapperObject = YellowTextScrapper(path_to_text=text_file_path)
+
     fields_df = json_normalize(textScrapperObject.get_all_fields())
 
     images = convert_from_bytes(decoded)
