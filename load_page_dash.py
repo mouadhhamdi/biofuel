@@ -103,6 +103,7 @@ def pil_to_b64_dash(im):
 
     return bytes("data:image/jpeg;base64,", encoding='utf-8') + img_str
 
+
 def parse_pdf_content_dash(contents):
     """
 
@@ -129,8 +130,8 @@ def parse_pdf_content_dash(contents):
     else:
         print("Successfully created directory %s" % pdf_folder_path)
 
-    pdf_file_path = os.path.join(pdf_folder_path,"pos.pdf")
-    text_file_path = os.path.join(text_folder_path,"pos.txt")
+    pdf_file_path = os.path.join(pdf_folder_path, "pos.pdf")
+    text_file_path = os.path.join(text_folder_path, "pos.txt")
     with open(pdf_file_path, 'wb') as f:
         f.write(decoded)
         f.close()
@@ -141,7 +142,7 @@ def parse_pdf_content_dash(contents):
     with open(text_file_path) as f:
         text = f.read()
 
-    if 'V4.4' in text :
+    if 'V4.4' in text:
         textScrapperObject = BlueTextScrapper(path_to_text=text_file_path)
     else:
         textScrapperObject = YellowTextScrapper(path_to_text=text_file_path)
@@ -153,6 +154,7 @@ def parse_pdf_content_dash(contents):
     encoded_second_page = pil_to_b64_dash(images[1])
 
     return render_pdf_extract_dash(encoded_first_page, encoded_second_page, fields_df)
+
 
 def render_pdf_extract_dash(encoded_first_page, encoded_second_page, fields_df):
     """
@@ -174,7 +176,7 @@ def render_pdf_extract_dash(encoded_first_page, encoded_second_page, fields_df):
                 columns=[{"name": i, "id": i} for i in df_transpose.columns],
                 is_focused=True,
                 data=df_transpose.to_dict('records'),
-                style_cell={'textAlign': 'left'},
+                style_cell={'textAlign': 'center'},
                 style_as_list_view=True,
                 style_data={
                     'whiteSpace': 'normal',
@@ -209,8 +211,15 @@ def render_pdf_extract_dash(encoded_first_page, encoded_second_page, fields_df):
                                       'margin-bottom': '1em',
                                       "margin-top": "15px"}),
                     dcc.Loading(html.Div(id="submit-pos-loading"), type="circle"),
-                    dbc.Alert('POS added to database',id='alert-pos-green',style={'width': '70%',"margin-top": "5px"},color='green',is_open=False),
-                    dbc.Alert('POS already added to database',id='alert-pos-red', style={'width': '70%', "margin-top": "5px"},color='danger',is_open=False),
+                    dbc.Alert('POS added to database', id='alert-pos-green',
+                              style={'width': '70%', "margin-top": "5px"},
+                              color='green',
+                              is_open=False),
+                    dbc.Alert('POS already added to database',
+                              id='alert-pos-red',
+                              style={'width': '70%', "margin-top": "5px"},
+                              color='danger',
+                              is_open=False),
                 ]
                 ),
             ],
@@ -234,7 +243,7 @@ def show_green_message(n_clicks):
     :param n_clicks: on click submit the pdf
     :return: alert message
     """
-    if n_clicks==1:
+    if n_clicks == 1:
         time.sleep(2)
         return '', True
     else:
